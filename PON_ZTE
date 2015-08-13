@@ -1,0 +1,351 @@
+Building configuration...
+!**********Before interface -- show run on RP start!*********
+!
+!
+sdisk disable
+set-pnp enable
+add-rack rackno 1 racktype C320Rack
+add-shelf rackno 1 shelfno 1 shelftype C320_SHELF
+add-subcard rackno 1 shelfno 1 slotno 3 subcardno 1 UCDC/3
+add-card rackno 1 shelfno 1 slotno 1 ETGO
+add-card rackno 1 shelfno 1 slotno 2 ETGO
+system-monitor watchdog rackno 1 shelfno 1 slotno 1 disable
+system-monitor watchdog-duration rackno 1 shelfno 1 slotno 1 value 5
+system-monitor endless-loop duration rackno 1 shelfno 1 slotno 1 value 75
+system-monitor endless-loop reboot rackno 1 shelfno 1 slotno 1 disable
+system-monitor task-suspend-reboot rackno 1 shelfno 1 slotno 1 all
+system-monitor watchdog rackno 1 shelfno 1 slotno 3 disable
+system-monitor watchdog-duration rackno 1 shelfno 1 slotno 3 value 5
+system-monitor endless-loop duration rackno 1 shelfno 1 slotno 3 value 75
+system-monitor endless-loop reboot rackno 1 shelfno 1 slotno 3 disable
+system-monitor task-suspend-reboot rackno 1 shelfno 1 slotno 3 all
+system-monitor watchdog rackno 1 shelfno 1 slotno 4 disable
+system-monitor watchdog-duration rackno 1 shelfno 1 slotno 4 value 5
+system-monitor endless-loop duration rackno 1 shelfno 1 slotno 4 value 75
+system-monitor endless-loop reboot rackno 1 shelfno 1 slotno 4 disable
+system-monitor task-suspend-reboot rackno 1 shelfno 1 slotno 4 all
+system-monitor watchdog rackno 1 shelfno 1 slotno 2 disable
+system-monitor watchdog-duration rackno 1 shelfno 1 slotno 2 value 5
+system-monitor endless-loop duration rackno 1 shelfno 1 slotno 2 value 75
+system-monitor endless-loop reboot rackno 1 shelfno 1 slotno 2 disable
+system-monitor task-suspend-reboot rackno 1 shelfno 1 slotno 2 all
+!
+his-performance sample enable
+his-performance alarm enable
+his-performance auto-upload disable
+!
+!
+clock
+!
+!
+
+!
+ptp
+ptp-two-step disable
+ptp-announce-interval 0
+!
+!
+security port-protect enable
+!
+eth-switch max-frame-length  1600
+!
+!
+vlan database
+  vlan 1,47,49,80,90
+  vlan 231-1270
+!
+vlan 47
+  name EXIM
+!
+!
+vlan 90
+  name SERV-1544
+!
+!
+!
+!
+epon     
+!
+!
+port-location access-node-identifier inband-mac
+!
+dhcp-option82 disable
+dhcp6-option18 disable
+!
+pppoe-plus disable
+!
+ndp-lio disable
+!
+igmp  enable
+mld  disable
+gpon
+!
+!
+gpon
+!
+!
+pon
+  onu-type ALIS-0212 epon description 1GE
+  onu-type ANYK-0211 epon description 1GE
+  onu-type BDCM-1005 epon description 1GE
+  onu-type BDCM-151C epon description 1GE
+  onu-type BDCM-3024 epon description 4FE
+  onu-type NGPN-NG02 epon description 1GE
+  onu-type PCTL-G100 epon description 1GE
+  onu-type PCTL-NG02 epon description 1GE
+  onu-type-if ALIS-0212 eth_0/1
+  onu-type-if ANYK-0211 eth_0/1
+  onu-type-if BDCM-1005 eth_0/1
+  onu-type-if BDCM-151C eth_0/1
+  onu-type-if BDCM-3024 eth_0/1
+  onu-type-if BDCM-3024 eth_0/2
+  onu-type-if BDCM-3024 eth_0/3
+  onu-type-if BDCM-3024 eth_0/4
+  onu-type-if NGPN-NG02 eth_0/1
+  onu-type-if PCTL-G100 eth_0/1
+  onu-type-if PCTL-NG02 eth_0/1
+  uncfg-onu-display-info mac sn loid model version 
+
+!
+!
+!        
+!
+ip-service ip-source-guard disable
+
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface mng1
+  ip address 192.168.2.100 255.255.255.0
+  boot-server 136.1.1.1
+  boot-username target
+  config-filename startrun.dat
+  imgfile-location local
+  !        
+interface vlan 90
+  ip address 10.69.44.5 255.255.255.0
+!
+interface null1
+!
+interface epon-olt_1/1/1
+  p2p mode group
+  auto-learning enable 
+  onu 1 type BDCM-151C mac fcfa.f7c6.0fd3 ip-cfg static
+  onu 2 type BDCM-151C mac fcfa.f7c5.6211 ip-cfg static
+  onu 3 type BDCM-151C mac fcfa.f7c5.f4d2 ip-cfg static
+  onu 4 type BDCM-151C mac fcfa.f7c5.559a ip-cfg static
+  onu 5 type BDCM-151C mac fcfa.f7c6.258d ip-cfg static
+  onu 6 type BDCM-151C mac fcfa.f7c5.59c5 ip-cfg static
+  onu 7 type PCTL-G100 mac c4c9.ec00.2a1b ip-cfg static
+  onu 8 type BDCM-1005 mac fcfa.f7d8.603d ip-cfg static
+  onu 9 type BDCM-151C mac fcfa.f7c6.1997 ip-cfg static
+  onu 10 type BDCM-151C mac fcfa.f7c6.264a ip-cfg static
+  onu 11 type BDCM-151C mac fcfa.f7c5.6153 ip-cfg static
+  onu 12 type BDCM-3024 mac fcfa.f796.4759 ip-cfg static
+  onu 13 type BDCM-3024 mac fcfa.f796.4763 ip-cfg static
+  onu 14 type BDCM-3024 mac fcfa.f796.6cbd ip-cfg static
+  onu 15 type BDCM-3024 mac fcfa.f796.6908 ip-cfg static
+  onu 16 type BDCM-3024 mac fcfa.f796.45c1 ip-cfg static
+  onu 17 type BDCM-3024 mac fcfa.f796.5992 ip-cfg static
+  onu 18 type BDCM-3024 mac fcfa.f796.56a0 ip-cfg static
+  onu 19 type BDCM-3024 mac fcfa.f796.699a ip-cfg static
+  onu 20 type BDCM-3024 mac fcfa.f796.45c8 ip-cfg static
+  onu 21 type BDCM-3024 mac fcfa.f796.56b6 ip-cfg static
+  onu 22 type BDCM-3024 mac fcfa.f796.6cc0 ip-cfg static
+  onu 23 type BDCM-3024 mac fcfa.f796.476f ip-cfg static
+  onu 24 type PCTL-G100 mac c4c9.ec00.3489 ip-cfg static
+  onu 25 type BDCM-151C mac fcfa.f7c5.59a7 ip-cfg static
+  onu 26 type BDCM-3024 mac fcfa.f796.45c2 ip-cfg static
+  onu 27 type BDCM-3024 mac fcfa.f796.5840 ip-cfg static
+  onu 28 type BDCM-151C mac fcfa.f7c6.1265 ip-cfg static
+  onu 29 type BDCM-151C mac fcfa.f7c6.0e7a ip-cfg static
+  onu 30 type BDCM-151C mac fcfa.f7c6.2a62 ip-cfg static
+  onu 31 type PCTL-G100 mac c4c9.ec00.27b6 ip-cfg static
+  onu 32 type PCTL-G100 mac c4c9.ec00.3062 ip-cfg static
+  onu 33 type BDCM-151C mac fcfa.f7c6.2e7f ip-cfg static
+  onu 34 type BDCM-3024 mac fcfa.f796.68f8 ip-cfg static
+  onu 35 type PCTL-G100 mac c4c9.ec00.341f ip-cfg static
+  onu 36 type NGPN-NG02 mac c4c9.ec00.3492 ip-cfg static
+  onu 37 type BDCM-3024 mac fcfa.f796.5a1e ip-cfg static
+  onu 38 type NGPN-NG02 mac c4c9.ec00.4809 ip-cfg static
+!
+interface epon-onu_1/1/1:1
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 231  tag vport 1
+  dhcp-option82 enable vport 1 
+  dhcp6-option18 enable vport 1 
+  pppoe-plus enable vport 1 
+!
+interface epon-onu_1/1/1:2
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 232  tag vport 1
+!
+interface epon-onu_1/1/1:3
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 233  tag vport 1
+!
+interface epon-onu_1/1/1:4
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 234  tag vport 1
+!
+interface epon-onu_1/1/1:5
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 235  tag vport 1
+!
+interface epon-onu_1/1/1:6
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 236  tag vport 1
+!
+interface epon-onu_1/1/1:7
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode trunk vport 1
+  switchport vlan 237  tag vport 1
+!
+interface epon-onu_1/1/1:8
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 238  tag vport 1
+!
+interface epon-onu_1/1/1:9
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 239  tag vport 1
+!
+interface epon-onu_1/1/1:10
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 240  tag vport 1
+!
+interface epon-onu_1/1/1:11
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 241  tag vport 1
+!
+interface epon-onu_1/1/1:12
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 242  tag vport 1
+!
+interface epon-onu_1/1/1:13
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 243  tag vport 1
+!
+interface epon-onu_1/1/1:14
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 244  tag vport 1
+!
+interface epon-onu_1/1/1:15
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 245  tag vport 1
+!
+interface epon-onu_1/1/1:16
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 246  tag vport 1
+!
+interface epon-onu_1/1/1:17
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 247  tag vport 1
+!
+interface epon-onu_1/1/1:18
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 248  tag vport 1
+!        
+interface epon-onu_1/1/1:19
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 249  tag vport 1
+!
+interface epon-onu_1/1/1:20
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 250  tag vport 1
+!
+interface epon-onu_1/1/1:21
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 251  tag vport 1
+!
+interface epon-onu_1/1/1:22
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 252  tag vport 1
+!
+interface epon-onu_1/1/1:23
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode hybrid vport 1
+  switchport vlan 253  tag vport 1
+!
+interface epon-onu_1/1/1:24
+  admin enable
+  ems-autocfg-request disable
+  encrypt direction downstream  enable  vport 1
+  switchport mode trunk vport 1
+  switchport vlan 254  tag vport 1
+!
